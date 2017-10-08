@@ -1,0 +1,21 @@
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = false
+indent_brace_style = K&R
+curly_bracket_next_line = false
+spaces_around_operators = true
+max_line_length = 120
+tab_width = 2
+indent_size = 2
+continuation_indent_size = 4
+indent_style = tab
+insert_final_newline = true
+
+[*.{js,html,css}]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false
