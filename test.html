@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Тестовое задание</title>
+    </head>
+    <body>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+            
+            body {
+                background: #efefef;
+            }
+            
+            .circle {
+                background: #444;
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                border-radius: 100px;
+            }
+            
+            .circle-shadow {
+                background: #ddd;
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                border-radius: 100px;
+            }
+            
+            .transition {
+                transition: all .3s;
+            }
+
+        </style>
+        
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script>
+			// Оптимизируйте и приведите код в порядок
+            
+            for (var x=0; x<$("body").width(); x+=60) {for (var y=0; y<$("body").height(); y+=60) {
+            $("body").append("<div class='circle-shadow' data-x='"+x+"' data-y='"+y+"' style='top:"+y+"px;left:"+x+"px'></div>");
+            $("body").append("<div class='circle' data-x='"+x+"' data-y='"+y+"' style='top:"+y+"px;left:"+x+"px'></div>");
+            }}
+            
+            try {
+                $(window).on("mousemove",function(document){
+                $(".circle").each(function(i){
+                var x0=+$(".circle:eq("+i+")").data("x")+$(".circle:eq("+i+")").width()/2,
+                y0=+$(".circle:eq("+i+")").data("y")+$(".circle:eq("+i+")").width()/2,
+                dx=document.clientX-x0,
+                dy=document.clientY-y0;
+                $(".circle:eq("+i+")").removeClass("transition");
+                return setTimeout(function() {return Math.sqrt(dx*dx+dy*dy)<$(".circle:eq("+i+")").width()?(function(){
+                $(".circle:eq("+i+")").css({
+                left:x0-dx-$(".circle:eq("+i+")").width()/2+"px",
+                top:y0-dy-$(".circle:eq("+i+")").width()/2+"px"
+                });
+                })():(function(){$(".circle:eq("+i+")").addClass("transition");
+                $(".circle:eq("+i+")").css({
+                left:x0-$(".circle:eq("+i+")").width()/2+"px",
+                top:y0-$(".circle:eq("+i+")").width()/2+"px"
+                });
+                })();}, i);
+                });
+                });
+            } catch(window) {if (window) {alert(window);}
+            }
+
+        </script>
+    </body>
+</html>
