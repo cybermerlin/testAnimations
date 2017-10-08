@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Тестовое задание</title>
+</head>
+<body>
+<style>
+	html, body {
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+	}
+
+	body {
+		background: #efefef;
+	}
+
+	.circle {
+		background: #444;
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		border-radius: 100px;
+	}
+
+	.circle-shadow {
+		background: #ddd;
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		border-radius: 100px;
+	}
+
+	.transition {
+		transition: all .3s ease-out;
+	}
+
+</style>
+
+<script>
+	// for match better animation in IE use GSAP or Animation libs, or native timeout ticks with window.requestAnimationFrame()
+	// Оптимизируйте и приведите код в порядок
+	/**
+	 * add circle to html body
+	 * @param {String} cls class name
+	 * @param {Number} x axis X coordinate
+	 * @param {Number} y axis Y coordinate
+	 * @private
+	 */
+	function _addCircle(cls, x, y) {
+		var o = document.createElement('DIV');
+		o.className = cls;
+		o.style.cssText = 'top:' + y + 'px;left:' + x + 'px';
+		o.setAttribute('data-x', x);
+		o.setAttribute('data-y', y);
+		document.body.appendChild(o);
+	}
+
+	for (var x = 0; x < document.body.offsetWidth; x += 60) {
+		for (var y = 0; y < document.body.offsetHeight; y += 60) {
+			_addCircle('circle-shadow', x, y);
+			_addCircle('circle', x, y);
+		}
+	}
+
+	try {
+		window.addEventListener("mousemove", function (event) {
+			var circles = document.querySelectorAll('.circle');
+			for (var i in circles) {
+				if (!circles.hasOwnProperty(i)) continue;
+				var ce = circles[i],
+						cWidth = ce.offsetWidth,
+						x0 = +ce.getAttribute('data-x') + cWidth / 2,
+						y0 = +ce.getAttribute('data-y') + cWidth / 2,
+						dx = event.clientX - x0,
+						dy = event.clientY - y0;
+				ce.className = ce.className.replace(" transition", '');
+				Math.sqrt(dx * dx + dy * dy) < cWidth
+						? (function () {
+							ce.style.cssText = ''
+									+ 'left:' + (x0 - dx - cWidth / 2) + 'px;'
+									+ 'top:' + (y0 - dy - cWidth / 2) + 'px';
+						})()
+						: (function () {
+							ce.className = ce.className + " transition";
+							ce.style.cssText = ''
+									+ 'left:' + ( x0 - cWidth / 2) + 'px;'
+									+ 'top:' + ( y0 - cWidth / 2) + 'px';
+						})();
+			}
+		});
+	} catch (e) {
+		alert(e.message);
+	}
+
+</script>
+</body>
+</html>
